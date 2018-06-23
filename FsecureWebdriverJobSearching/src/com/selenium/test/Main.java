@@ -24,6 +24,7 @@ public class Main {
         acceptCookiesUsage(driver);
 
         String career = handleTranslationsAtHomePage(driver.getCurrentUrl());
+        //TODO: handle responsiveness
         WebElement careerSectionTextLink = driver.findElement(By.linkText(career));
         careerSectionTextLink.click();
 
@@ -31,10 +32,9 @@ public class Main {
 
         WebElement citiesDropdownList = driver.findElement(By.cssSelector("[data-id=\"job-city\"]"));
         citiesDropdownList.click();
-
-        driver.findElement(By.xpath("/html/body/div[1]/div[3]/div/div/div/div[3]/div/div/div/div[1]/section/div/div[1]/div/div/div/div/ul/li[5]/a")).click();
-
-
+        
+        driver.findElement(By.xpath("//*[contains(text(), 'Poznań')]")).click();
+        driver.findElement(By.xpath("//*[contains(text(), 'Quality Engineer')]"));
 
         driver.close();
     }
