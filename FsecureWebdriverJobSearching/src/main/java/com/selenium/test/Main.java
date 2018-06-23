@@ -4,9 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
 
 public class Main {
 
@@ -34,16 +33,21 @@ public class Main {
         citiesDropdownList.click();
 
         driver.findElement(By.xpath("//*[contains(text(), 'Poznań')]")).click();
-        driver.findElement(By.xpath("//*[contains(text(), 'Quality Engineer')]"));
 
+        Thread.sleep(200);
+
+        WebElement qualityEngineerJobOfferTitle = driver.findElement(By.xpath("//h2[contains(text(), 'Quality Engineer')]"));
+
+        System.out.println(qualityEngineerJobOfferTitle.getSize().toString());
+
+        Assert.assertTrue(qualityEngineerJobOfferTitle.isDisplayed());
         driver.close();
     }
-
 
     public static String handleTranslationsAtHomePage(String currentUrl) {
         String careersTextLink;
         System.out.println(currentUrl);
-        if (currentUrl.contentEquals("https://www.f-secure.com/pl_PL/f-secure") ) {
+        if (currentUrl.contentEquals("https://www.f-secure.com/pl_PL/f-secure")) {
             System.out.println("Using polish language");
             careersTextLink = "Kariera";
         } else {
@@ -57,7 +61,7 @@ public class Main {
             driver.findElement(By.id("cookie-consent"));
             System.out.println("There are cookies");
             driver.findElement(By.cssSelector("a.btn.btn-primary")).click();
-        }catch(NoSuchElementException e) {
+        } catch (NoSuchElementException e) {
             System.out.println("No cookies acceptance needed!");
             return;
         }
