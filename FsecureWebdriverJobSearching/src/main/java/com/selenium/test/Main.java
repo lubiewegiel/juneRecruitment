@@ -32,7 +32,7 @@ public class Main {
 
         WebElement citiesDropdownList = driver.findElement(By.cssSelector("[data-id=\"job-city\"]"));
         citiesDropdownList.click();
-        
+
         driver.findElement(By.xpath("//*[contains(text(), 'Poznań')]")).click();
         driver.findElement(By.xpath("//*[contains(text(), 'Quality Engineer')]"));
 
