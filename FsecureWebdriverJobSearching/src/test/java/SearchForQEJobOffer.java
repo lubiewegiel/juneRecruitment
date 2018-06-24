@@ -1,16 +1,22 @@
 import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 public class SearchForQEJobOffer {
+
+    private WebDriver driver;
+    private WebDriverWait wait;
 
     String baseUrl = "https://www.f-secure.com/";
     String expectedHomePageTitle = "F-Secure | Cyber Security Solutions for your Home and Business";
@@ -22,12 +28,15 @@ public class SearchForQEJobOffer {
     String qualityEngineerJobOfferTitleXpath = "//h2[contains(text(), 'Quality Engineer')]";
     String thirdPagersElementsXpath = "(//a[contains(text(),'See our open positions')])";
 
+    @BeforeClass
+    public void setUp() {
+        driver = new FirefoxDriver();
+//        driver = new ChromeDriver();
+        wait = new WebDriverWait(driver, 2);
+    }
+
     @Test
     public void SearchForQAJobOffer() {
-        WebDriver driver = new FirefoxDriver();
-        //        WebDriver driver = new ChromeDriver();
-        WebDriverWait wait = new WebDriverWait(driver, 2);
-
 
         driver.get(baseUrl);
 
@@ -55,10 +64,12 @@ public class SearchForQEJobOffer {
         wait.until(ExpectedConditions.visibilityOf(qualityEngineerJobOfferTitle));
 
         Assert.assertTrue(qualityEngineerJobOfferTitle.isDisplayed());
-
         //assert that there are less than 3 offer pages
         Assert.assertFalse(isElementWithByPatternPresented(driver, By.xpath((thirdPagersElementsXpath))));
+    }
 
+    @AfterClass
+    public void tearDown() {
         driver.close();
     }
 
