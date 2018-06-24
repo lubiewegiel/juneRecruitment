@@ -21,16 +21,32 @@ public class Main {
 //        WebDriver driver = new ChromeDriver();
         WebDriverWait wait = new WebDriverWait(driver, 2);
         String baseUrl = "https://www.f-secure.com/";
+        String expectedHomePageTitle = "F-Secure | Cyber Security Solutions for your Home and Business";
+        String expectedCareerPageUrl = "https://www.f-secure.com/en/web/about_global/careers";
+        String expectedSeeOurOpenPositionsButtonsHref = "https://www.f-secure.com/en/web/about_global/careers/job-openings";
+
+        String fellowShipStoriesButtonXpath = "//button[contains(text(), 'Fellowship stories')]";
         String seeOurOpenPositionsButtonsXpath = "(//a[contains(text(),'See our open positions')])[2]";
         String qualityEngineerJobOfferTitleXpath = "//h2[contains(text(), 'Quality Engineer')]";
+        String thirdPagersElementsXpath = (//a[contains(text(),'See our open positions')]);
 
         driver.get(baseUrl);
 
-        System.out.println(driver.getTitle());
+        Assert.assertEquals(driver.getTitle(), expectedHomePageTitle);
 
         openCareerPageFromHomePage(driver);
 
-        driver.findElement(By.xpath(seeOurOpenPositionsButtonsXpath)).click();
+        Assert.assertEquals(driver.getCurrentUrl(),expectedCareerPageUrl);
+
+        WebElement fellowShipStoriesButton = driver.findElement(By.xpath(fellowShipStoriesButtonXpath));
+        WebElement seeOurOpenPositionsButtons = driver.findElement(By.xpath(seeOurOpenPositionsButtonsXpath));
+
+        Assert.assertTrue(fellowShipStoriesButton.isDisplayed() && fellowShipStoriesButton.isEnabled());
+        Assert.assertTrue(seeOurOpenPositionsButtons.isDisplayed() && seeOurOpenPositionsButtons.isEnabled());
+        Assert.assertEquals(seeOurOpenPositionsButtons.getAttribute("href"),
+                expectedSeeOurOpenPositionsButtonsHref);
+
+        seeOurOpenPositionsButtons.click();
 
         filterOffersFromPoznanAtJobOpeningsPage(driver);
 
@@ -40,7 +56,8 @@ public class Main {
         wait.until(ExpectedConditions.visibilityOf(qualityEngineerJobOfferTitle));
 
         Assert.assertTrue(qualityEngineerJobOfferTitle.isDisplayed());
-        System.out.println(qualityEngineerJobOfferTitle.getSize().toString());
+        //assert that there are less than 3 offer pages
+        Assert.assertFalse(isElementWithPatternPresented(driver, By.xpath((thirdPagersElementsXpath))));
 
         driver.close();
     }
@@ -102,9 +119,18 @@ public class Main {
         }
     }
 
+    public static boolean isElementWithPatternPresented(WebDriver driver, By pattern) {
+        try {
+            driver.findElement(pattern);
+            return true;
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+    }
+
     public static String handleTranslationsAtHomePage(String currentUrl) {
         String careersTextLink;
-        System.out.println(currentUrl);
+
         if (currentUrl.contentEquals("https://www.f-secure.com/pl_PL/f-secure")) {
             System.out.println("Using polish language");
             careersTextLink = "Kariera";
@@ -117,7 +143,7 @@ public class Main {
     public static void acceptCookiesUsage(WebDriver driver) {
         try {
             driver.findElement(By.id("cookie-consent"));
-            System.out.println("There are cookies");
+            System.out.println("There is cookie acceptance prompt!");
             driver.findElement(By.cssSelector("a.btn.btn-primary")).click();
         } catch (NoSuchElementException e) {
             System.out.println("No cookies acceptance needed!");
