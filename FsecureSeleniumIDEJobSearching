@@ -1,0 +1,104 @@
+{
+  "id": "2f87205b-1204-452e-9775-1a3fd56a9656",
+  "name": "FsecureJobSearching",
+  "url": "https://www.f-secure.com",
+  "tests": [{
+    "id": "8686d8ba-fb9d-4bcd-9d57-13e8d006492c",
+    "name": "JobSearching",
+    "commands": [{
+      "id": "cc471b76-9e68-4a17-9c36-510bb102d4b5",
+      "comment": "",
+      "command": "open",
+      "target": "/pl_PL/f-secure",
+      "value": ""
+    }, {
+      "id": "fba9ba13-c604-4ba9-b3fd-8ea353e6423d",
+      "comment": "",
+      "command": "assertTitle",
+      "target": "F-Secure | Cyber Security Solutions for your Home and Business",
+      "value": ""
+    }, {
+      "id": "f4b7b4ed-db56-422b-908a-8be03e64f4a5",
+      "comment": "",
+      "command": "clickAt",
+      "target": "//a[contains(text(),'Kariera')]",
+      "value": "38,14"
+    }, {
+      "id": "d4520cd6-bda2-4bb2-8f80-812883472f95",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,57)",
+      "value": ""
+    }, {
+      "id": "797a7171-03c5-4f48-82aa-e2e979a58057",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "//div[@id='p_p_id_56_INSTANCE_gJitE6b6gf8s_']/div/div/div/div/section/div/div[2]/div[3]/div/p/a/button",
+      "value": "8,3"
+    }, {
+      "id": "d354b99c-f014-4f18-8404-df722941435f",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "xpath=(//a[contains(text(),'See our open positions')])[2]",
+      "value": ""
+    }, {
+      "id": "969796a0-9024-4ec0-af89-06e8698ab2a1",
+      "comment": "",
+      "command": "clickAt",
+      "target": "xpath=(//a[contains(text(),'See our open positions')])[2]",
+      "value": "27,14"
+    }, {
+      "id": "b3a1784e-ee26-4f7b-bae3-db463f42e542",
+      "comment": "",
+      "command": "clickAt",
+      "target": "//button[@type='button']",
+      "value": "223,17"
+    }, {
+      "id": "86c4ba7e-fe4c-4a8d-91ad-a38583e05436",
+      "comment": "",
+      "command": "clickAt",
+      "target": "//div[@id='p_p_id_56_INSTANCE_C7guYZjcAQo6_']/div/div/div/div/section/div/div/div/div/div/div/ul/li[5]/a",
+      "value": "168,9"
+    }, {
+      "id": "f0cf2fcb-adac-40b0-8faa-b4c132da3225",
+      "comment": "",
+      "command": "select",
+      "target": "id=job-city",
+      "value": "label=Poznań"
+    }, {
+      "id": "a8ad287b-e8a0-440a-bbf9-092ee6bc1b5a",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0,61)",
+      "value": ""
+    }, {
+      "id": "5bb03919-51f8-4f8e-a104-5747b1788b7e",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "//div[@id='job-ads']/article[2]/h2",
+      "value": "130,16"
+    }, {
+      "id": "eb3bdbaf-4e30-47d2-a304-63e40e868414",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "//div[@id='job-ads']/article[2]/p",
+      "value": "58,9"
+    }, {
+      "id": "06ad1a11-746a-4503-a5fd-402c12088a9c",
+      "comment": "",
+      "command": "clickAt",
+      "target": "css=a.page-link",
+      "value": "32,24"
+    }]
+  }],
+  "suites": [{
+    "id": "ddf9e506-11ae-4d16-932b-d7b44b439115",
+    "name": "Default Suite",
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["8686d8ba-fb9d-4bcd-9d57-13e8d006492c"]
+  }],
+  "urls": ["https://www.f-secure.com/"],
+  "plugins": [],
+  "version": "1.0"
+}
