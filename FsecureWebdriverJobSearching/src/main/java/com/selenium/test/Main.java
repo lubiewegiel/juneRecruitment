@@ -28,7 +28,7 @@ public class Main {
         String fellowShipStoriesButtonXpath = "//button[contains(text(), 'Fellowship stories')]";
         String seeOurOpenPositionsButtonsXpath = "(//a[contains(text(),'See our open positions')])[2]";
         String qualityEngineerJobOfferTitleXpath = "//h2[contains(text(), 'Quality Engineer')]";
-        String thirdPagersElementsXpath = (//a[contains(text(),'See our open positions')]);
+        String thirdPagersElementsXpath = "(//a[contains(text(),'See our open positions')])";
 
         driver.get(baseUrl);
 
@@ -57,7 +57,7 @@ public class Main {
 
         Assert.assertTrue(qualityEngineerJobOfferTitle.isDisplayed());
         //assert that there are less than 3 offer pages
-        Assert.assertFalse(isElementWithPatternPresented(driver, By.xpath((thirdPagersElementsXpath))));
+        Assert.assertFalse(isElementWithByPatternPresented(driver, By.xpath((thirdPagersElementsXpath))));
 
         driver.close();
     }
@@ -81,17 +81,18 @@ public class Main {
                 .withTimeout(3, TimeUnit.SECONDS)
                 .pollingEvery(1, TimeUnit.SECONDS)
                 .ignoring((NoSuchElementException.class));
-        final String career;
+        String career;
         String footerMenuAboutSectionXpath = "//div[@id='wrapper']/footer/div/div/div[2]/div/a";
         boolean footerMenuManuallyExpanded = false;
 
         acceptCookiesUsage(driver);
         career = handleTranslationsAtHomePage(driver.getCurrentUrl());
 
+        final By careerTextLinkByPattern = By.linkText(career);
+
         // Handling with responsiveness - if career link is under 'about' section of footer menu - works with ChromeDriver
-        try {
-            driver.findElement(By.linkText(career));
-        } catch (NoSuchElementException e) {
+        if (!isElementWithByPatternPresented(driver, careerTextLinkByPattern))
+        {
             System.out.println("Career was not visible");
             driver.findElement(By.xpath(footerMenuAboutSectionXpath)).click();
             footerMenuManuallyExpanded = true;
@@ -101,7 +102,7 @@ public class Main {
 
         careerSectionTextLink = fluentWait.until(new Function<WebDriver, WebElement>() {
             public WebElement apply(WebDriver driver) {
-                return driver.findElement(By.linkText(career));
+                return driver.findElement(careerTextLinkByPattern);
             }
         });
 
@@ -119,15 +120,6 @@ public class Main {
         }
     }
 
-    public static boolean isElementWithPatternPresented(WebDriver driver, By pattern) {
-        try {
-            driver.findElement(pattern);
-            return true;
-        } catch (NoSuchElementException e) {
-            return false;
-        }
-    }
-
     public static String handleTranslationsAtHomePage(String currentUrl) {
         String careersTextLink;
 
@@ -141,13 +133,19 @@ public class Main {
     }
 
     public static void acceptCookiesUsage(WebDriver driver) {
-        try {
-            driver.findElement(By.id("cookie-consent"));
+        By cookiePromptByPattern = By.id("cookie-consent");
+        if (isElementWithByPatternPresented(driver, cookiePromptByPattern)) {
             System.out.println("There is cookie acceptance prompt!");
             driver.findElement(By.cssSelector("a.btn.btn-primary")).click();
+        } else System.out.println("No cookies acceptance needed!");
+    }
+
+    public static boolean isElementWithByPatternPresented(WebDriver driver, By pattern) {
+        try {
+            driver.findElement(pattern);
+            return true;
         } catch (NoSuchElementException e) {
-            System.out.println("No cookies acceptance needed!");
-            return;
+            return false;
         }
     }
 }
