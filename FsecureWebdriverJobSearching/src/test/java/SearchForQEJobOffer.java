@@ -18,16 +18,6 @@ public class SearchForQEJobOffer {
     private WebDriver driver;
     private WebDriverWait wait;
 
-    String baseUrl = "https://www.f-secure.com/";
-    String expectedHomePageTitle = "F-Secure | Cyber Security Solutions for your Home and Business";
-    String expectedCareerPageUrl = "https://www.f-secure.com/en/web/about_global/careers";
-    String expectedSeeOurOpenPositionsButtonsHref = "https://www.f-secure.com/en/web/about_global/careers/job-openings";
-
-    String fellowShipStoriesButtonXpath = "//button[contains(text(), 'Fellowship stories')]";
-    String seeOurOpenPositionsButtonsXpath = "(//a[contains(text(),'See our open positions')])[2]";
-    String qualityEngineerJobOfferTitleXpath = "//h2[contains(text(), 'Quality Engineer')]";
-    String thirdPagersElementsXpath = "(//a[contains(text(),'See our open positions')])";
-
     @BeforeClass
     public void setUp() {
         driver = new FirefoxDriver();
@@ -37,6 +27,16 @@ public class SearchForQEJobOffer {
 
     @Test
     public void SearchForQAJobOffer() {
+
+        String baseUrl = "https://www.f-secure.com/";
+        String expectedHomePageTitle = "F-Secure | Cyber Security Solutions for your Home and Business";
+        String expectedCareerPageUrl = "https://www.f-secure.com/en/web/about_global/careers";
+        String expectedSeeOurOpenPositionsButtonsHref = "https://www.f-secure.com/en/web/about_global/careers/job-openings";
+
+        String fellowShipStoriesButtonXpath = "//button[contains(text(), 'Fellowship stories')]";
+        String seeOurOpenPositionsButtonsXpath = "(//a[contains(text(),'See our open positions')])[2]";
+        String qualityEngineerJobOfferTitleXpath = "//h2[contains(text(), 'Quality Engineer')]";
+        String thirdPagersElementsXpath = "(//a[contains(text(),'See our open positions')])";
 
         driver.get(baseUrl);
 
@@ -73,7 +73,7 @@ public class SearchForQEJobOffer {
         driver.close();
     }
 
-    public static void filterOffersFromPoznanAtJobOpeningsPage(WebDriver driver) {
+    private static void filterOffersFromPoznanAtJobOpeningsPage(WebDriver driver) {
 
         String citiesDropdownListCssSelector = "[data-id=\"job-city\"]";
         String citiesDropdownListPoznanElementXpath ="//*[contains(text(), 'Poznań')]";
@@ -85,7 +85,7 @@ public class SearchForQEJobOffer {
         citiesDropdownListPoznanElement.click();
     }
 
-    public static void openCareerPageFromHomePage(WebDriver driver) {
+    private static void openCareerPageFromHomePage(WebDriver driver) {
 
         WebElement careerSectionTextLink;
         Wait<WebDriver> fluentWait = new FluentWait<WebDriver>(driver)
@@ -131,7 +131,7 @@ public class SearchForQEJobOffer {
         }
     }
 
-    public static String handleTranslationsAtHomePage(String currentUrl) {
+    private static String handleTranslationsAtHomePage(String currentUrl) {
         String careersTextLink;
 
         if (currentUrl.contentEquals("https://www.f-secure.com/pl_PL/f-secure")) {
@@ -143,7 +143,7 @@ public class SearchForQEJobOffer {
         return careersTextLink;
     }
 
-    public static void acceptCookiesUsage(WebDriver driver) {
+    private static void acceptCookiesUsage(WebDriver driver) {
         By cookiePromptByPattern = By.id("cookie-consent");
         if (isElementWithByPatternPresented(driver, cookiePromptByPattern)) {
             System.out.println("There is cookie acceptance prompt!");
@@ -151,7 +151,7 @@ public class SearchForQEJobOffer {
         } else System.out.println("No cookies acceptance needed!");
     }
 
-    public static boolean isElementWithByPatternPresented(WebDriver driver, By pattern) {
+    private static boolean isElementWithByPatternPresented(WebDriver driver, By pattern) {
         try {
             driver.findElement(pattern);
             return true;
